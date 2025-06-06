@@ -77,8 +77,27 @@ rosbridge
 
 
 #===============UNITY===============#
-#first install Unity Hub and Unity Editor via the download links found at https://unity.com/
+#follow the official guide to install Unity for Ubuntu from https://docs.unity3d.com/hub/manual/InstallHub.html#install-hub-linux
 #it is recommended to use LTS version 2021.3 or 2022.3 for compatability with ROS
+
+#or follow the list of instructions below:
+    #To install the Unity Hub on a Debian or Ubuntu Linux distribution, you need to add the Unity Hub Debian         repository along with the public signing key to verify the integrity of the packages.
+    #To add the public signing key, run the following command:
+    wget -qO - https://hub.unity3d.com/linux/keys/public | gpg --dearmor | sudo tee /usr/share/keyrings/Unity_Technologies_ApS.gpg > /dev/null
+    #To add the Unity Hub repository, you need an entry in /etc/apt/sources.list.d. Run the following command to     add the Unity Hub repository:
+    sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/Unity_Technologies_ApS.gpg] https://hub.unity3d.com/linux/repos/deb stable main" > /etc/apt/sources.list.d/unityhub.list'
+    #Update the package cache and install the package:
+    sudo apt update
+    sudo apt-get install unityhub
+    #**Note: For some systems, you may need to ensure the following:
+      #The directory /usr/share/keyrings exists.
+      #The user or group installing the Hub has write permissions to the /usr/share/keyrings directory.
+      #The user or group installing Hub has at least read permissions to the resulting file                 Unity_Technologies_ApS.gpg.**
+
+    #To remove the Unity Hub from the system, run the following command:
+    sudo apt-get remove unityhub
+
+
 #in your Unity project, install the ROS-TCP-Connector Unity Package in the Unity package manager, or follow the guide: https://github.com/Unity-Technologies/ROS-TCP-Connector
 
 #add the rosbridge_server in the ROS 2 environment:
@@ -89,7 +108,12 @@ ros2 launch rosbridge_server rosbridge_websocket_launch.xml
 #set the ROS IP and port(default:9090)
 #use the TCP Connector or ROSConnection script to link your nodes
 
-
+#Once your Unity environment is configured, you can use the prebuilt MAXIMA simulation template:
+git clone https://github.com/YOUR_USERNAME/MAXIMA-UnityTemplate.git
+#Then, in Unity Hub:
+    #Click "Open" and navigate to the cloned project folder
+    #Ensure you are using Unity version 2021.3 LTS or 2022.3 LTS
+    #ROS settings should already be configured for use with rosbridge (port 9090 by default)
 
 
 RESULT:
