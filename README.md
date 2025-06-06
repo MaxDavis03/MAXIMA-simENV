@@ -44,6 +44,7 @@ source ~/.bashrc
 
 #===============MICRO-ROS AGENT===============#
 #pull the micro-ROS Agent image
+sudo apt update
 docker pull microros/micro-ros-agent:humble
 
 #setup micro-ROS Agent as a persistent service
@@ -64,16 +65,7 @@ running... | port: 8888
 logger setup | verbose_level: 4
 
 #add support via UART for non-networked MCUs
-micro_ros_agent serial --dev /dev/ttyUSB0
-
-
-#===============FOXGLOVE BRIDGE===============#
-#install foxglove rosbridge
-sudo apt install npm
-sudo npm install -g @foxglove/rosbridge
-
-#start the Websocket bridge (over port 8765 by default)
-rosbridge
+micro_ros_agent serial --dev /dev/ttyUSB0  #++++++++++++NOT WORKING++++++++++++
 
 
 #===============UNITY===============#
@@ -94,9 +86,20 @@ rosbridge
       #The user or group installing the Hub has write permissions to the /usr/share/keyrings directory.
       #The user or group installing Hub has at least read permissions to the resulting file                 Unity_Technologies_ApS.gpg.**
 
-    #To remove the Unity Hub from the system, run the following command:
-    sudo apt-get remove unityhub
+#then run Unity Hub with command:
+unityhub
 
+#when Unity Hub opens, skip past the recommended Unity Editor installation and install either version 2021.3 LTS or 2022.3 LTS, and make sure to check 'Linux Dedicated Server Build Support' or any other packages you may want to use when building your application for distribution 
+
+#Once Unity Editor is installed, you can use the prebuilt MAXIMA simulation template:
+git clone https://github.com/max_davis03/MAXIMA-simENV/MAXIMA-StandardTemplate.git
+#Then, in Unity Hub:
+    #Click "Open" and navigate to the cloned project folder
+    #Ensure you are using Unity version 2021.3 LTS or 2022.3 LTS
+    #ROS settings should already be configured for use with rosbridge (port 9090 by default)
+
+
+#++++++++++++++++++IF YOU ARE CONFIGURING YOUR OWN PROJECT WITHOUT THE TEMPLATE+++++++++++++++++
 
 #in your Unity project, install the ROS-TCP-Connector Unity Package in the Unity package manager, or follow the guide: https://github.com/Unity-Technologies/ROS-TCP-Connector
 
@@ -107,13 +110,17 @@ ros2 launch rosbridge_server rosbridge_websocket_launch.xml
 #then in Unity:
 #set the ROS IP and port(default:9090)
 #use the TCP Connector or ROSConnection script to link your nodes
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-#Once your Unity environment is configured, you can use the prebuilt MAXIMA simulation template:
-git clone https://github.com/YOUR_USERNAME/MAXIMA-UnityTemplate.git
-#Then, in Unity Hub:
-    #Click "Open" and navigate to the cloned project folder
-    #Ensure you are using Unity version 2021.3 LTS or 2022.3 LTS
-    #ROS settings should already be configured for use with rosbridge (port 9090 by default)
+#===============FOXGLOVE BRIDGE===============#
+#install the Foxglove WebSocket bridge (C++ implementation)
+sudo apt update
+sudo apt install -y ros-humble-foxglove-bridge
+
+#start the bridge with default port 8765
+ros2 launch foxglove_bridge foxglove_bridge_launch.xml
+
+
 
 
 RESULT:
