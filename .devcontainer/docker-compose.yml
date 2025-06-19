@@ -1,9 +1,43 @@
-version: '3'
+version: '3.8'
 services:
-  simenv:
+  maxima-simenv:
     build:
-      context: .
+      context: ..
       dockerfile: .devcontainer/Dockerfile
+      target: simenv
+    container_name: maxima-simenv
     volumes:
-      - ..:/workspace:cached
-    command: sleep infinity
+      - ..:/workspace
+    network_mode: host
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+    environment:
+      - DISPLAY=${DISPLAY}
+    stdin_open: true
+    tty: true
+
+  maxima-devenv:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+      target: devenv
+    container_name: maxima-devenv
+    ports:
+      - "8080:8080"
+    volumes:
+      - ..:/workspace
+    stdin_open: true
+    tty: true
+
+  maxima-microrosdev:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+      target: microrosdev
+    container_name: maxima-microrosdev
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+    volumes:
+      - ..:/workspace
+    stdin_open: true
+    tty: true

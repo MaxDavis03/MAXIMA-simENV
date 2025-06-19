@@ -1,4 +1,108 @@
 # MAXIMA-simENV
+# MAXIMA-simENV & devENV Docker Setup
+
+## Overview
+
+This repository contains a multi-purpose Docker setup for:
+
+* **Simulation environment** (`maxima-simenv`) with ROS 2 Humble, micro-ROS, rosbridge, Foxglove bridge (auto-started), and micro-ROS Agent
+* **Development environment** (`maxima-devenv`) with code-server (VS Code in browser)
+* **Firmware build environment** (`maxima-microrosdev`) with ESP-IDF 4.4.5 and cross-toolchains
+
+## Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/YOUR-USERNAME/MAXIMA-simENV.git
+cd MAXIMA-simENV
+```
+
+### 2. Build and Launch with Docker Compose
+
+```bash
+docker compose -f .devcontainer/docker-compose.yml up --build
+```
+
+### 3. Open VS Code Dev Container
+
+* Install the **Dev Containers** extension in VS Code
+* Open folder in container (`.devcontainer` will auto-configure)
+
+### 4. micro-ROS Agent Example (UDP or Serial)
+
+The `maxima-simenv` container auto-starts the UDP agent. You can also run manually:
+
+```bash
+ros2 run micro_ros_agent micro_ros_agent udp4 --port 8888
+```
+
+```bash
+# Or for serial
+ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyUSB0
+```
+
+### 5. ESP32 Firmware Build Example
+
+```bash
+source /opt/ros/humble/setup.bash
+source /root/microros_ws/install/local_setup.bash
+ros2 run micro_ros_setup create_firmware_ws.sh esp32
+ros2 run micro_ros_setup build_firmware.sh
+ros2 run micro_ros_setup flash_firmware.sh /dev/ttyUSB0
+```
+
+### 6. Flash Script (optional)
+
+Use the provided flash helper:
+
+```bash
+chmod +x flash.sh
+./flash.sh /dev/ttyUSB0
+```
+
+### 7. Launch File for Bridges
+
+Use this to launch bridges manually inside simENV:
+
+```bash
+ros2 launch launch_simenv.launch.xml
+```
+
+---
+
+## Services Summary
+
+| Service Name         | Purpose                              | Access                  |
+| -------------------- | ------------------------------------ | ----------------------- |
+| `maxima-simenv`      | ROS 2 + Foxglove + rosbridge + agent | Internal                |
+| `maxima-devenv`      | Code editor in browser               | `http://localhost:8080` |
+| `maxima-microrosdev` | micro-ROS firmware builds            | Internal                |
+
+---
+
+## License
+
+MIT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Installation instructions for MAXIMA simulation environment.
 
 

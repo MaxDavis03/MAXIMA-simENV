@@ -1,22 +1,19 @@
 {
-  "name": "MAXIMA-simENV",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
-  },
+  "name": "MAXIMA Dev Container",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "maxima-devenv",
+  "workspaceFolder": "/workspace",
   "settings": {
     "terminal.integrated.defaultProfile.linux": "bash"
   },
+  "mounts": [
+    "source=${localWorkspaceFolder}/src,target=/workspace/src,type=bind"
+  ],
   "extensions": [
     "ms-azuretools.vscode-docker",
     "ms-iot.vscode-ros",
     "ms-python.python",
     "ms-vscode.cpptools"
   ],
-  "mounts": [
-    "source=${localWorkspaceFolder}/src,target=/workspace/src,type=bind"
-  ],
-  "workspaceFolder": "/workspace",
-  "remoteUser": "root",
-  "postCreateCommand": "source /opt/ros/humble/setup.bash"
+  "postCreateCommand": "/bin/bash -c 'source /opt/ros/humble/setup.bash'"
 }

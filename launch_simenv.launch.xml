@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="rosbridge_server" type="rosbridge_websocket" name="rosbridge_websocket" output="screen" />
+  <node pkg="foxglove_bridge" exec="foxglove_bridge" name="foxglove_bridge" output="screen" />
+</launch>
