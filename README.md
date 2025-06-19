@@ -1,5 +1,6 @@
 # MAXIMA-simENV
 # MAXIMA-simENV & devENV Docker Setup
+Updated 19/06/2025
 
 ## Overview
 
@@ -103,6 +104,7 @@ MIT
 
 
 
+###OUTDATED##################################################
 Installation instructions for MAXIMA simulation environment.
 
 
